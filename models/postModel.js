@@ -7,6 +7,9 @@ let schema = new mongoose.Schema({
     location: Object,
     description: String,
     place_url: String,
+    likes: {
+        type: Number, default: 0
+    },
     user_id: String,
     nickname: String,
     date_created: {
