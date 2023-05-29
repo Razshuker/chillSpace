@@ -3,6 +3,7 @@ const usersR = require("./users");
 const placesR = require("./places");
 const categoriesR = require("./categories");
 const tagsR = require("./tags");
+const postsR = require("./posts");
 
 
 
@@ -13,9 +14,9 @@ exports.routesInit = (app) => {
   app.use("/places", placesR);
   app.use("/categories", categoriesR);
   app.use("/tags", tagsR);
+  app.use("/posts", postsR);
 
 
-  //show 404 routes
   app.use("/*", (req, res) => {
     res.status(404).json({ msg: "Endpoint/page not found, 404" })
   })

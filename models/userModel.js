@@ -1,10 +1,12 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const jwt = require("jsonwebtoken");
+const { config } = require("../config/secret")
 
 let schema = new mongoose.Schema({
   full_name: String,
   img_url: String,
-  phone: Number,
+  phone: String,
   email: String,
   password: String,
   location: String,
@@ -14,7 +16,8 @@ let schema = new mongoose.Schema({
   },
   role: {
     type: String, default: "user"
-  }
+  },
+  favorites: Array
 })
 exports.UserModel = mongoose.model("users", schema)
 
@@ -27,9 +30,20 @@ exports.validateUser = (_reqBody) => {
   let joiSchema = Joi.object({
     full_name: Joi.string().min(2).max(150).required(),
     img_url: Joi.string().min(2).max(400).allow(null, ""),
-    phone: Joi.number().min(1).max(25).required(),
+    phone: Joi.string().min(1).max(25).required(),
     email: Joi.string().min(2).max(400).email().required(),
     password: Joi.string().min(2).max(400).required(),
+    location: Joi.string().min(2).max(400).required(),
+    nickname: Joi.string().min(2).max(100).required(),
+  })
+  return joiSchema.validate(_reqBody)
+}
+exports.validateUpdateUser = (_reqBody) => {
+  let joiSchema = Joi.object({
+    full_name: Joi.string().min(2).max(150).required(),
+    img_url: Joi.string().min(2).max(400).allow(null, ""),
+    phone: Joi.string().min(1).max(25).required(),
+    email: Joi.string().min(2).max(400).email().required(),
     location: Joi.string().min(2).max(400).required(),
     nickname: Joi.string().min(2).max(100).required(),
   })

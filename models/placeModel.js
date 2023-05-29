@@ -5,7 +5,7 @@ let schema = new mongoose.Schema({
     img_url: String,
     name: String,
     type: String,
-    categories_id: Array,
+    categories_code: Array,
     city: String,
     phone: String,
     location: Object,
