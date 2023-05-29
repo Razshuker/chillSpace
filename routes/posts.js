@@ -60,11 +60,10 @@ router.put("/:id", async (req, res) => {
         res.status(502).json({ err })
     }
 })
-// need to check
 router.patch("/addLike/:id", async (req, res) => {
     try {
         const id = req.params.id;
-        const data = await PostModel.updateOne({ _id: id }, {$inc:{likes:1}})
+        const data = await PostModel.updateOne({ _id: id }, { $inc: { likes: 1 } })
         res.status(200).json(data);
     }
     catch (err) {

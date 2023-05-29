@@ -17,14 +17,14 @@ router.get("/", async (req, res) => {
         res.status(502).json({ err })
     }
 })
-// need to check
+
 router.get("/category/:catCode", async (req, res) => {
     let perPage = req.query.perPage ? Math.min(req.query.perPage, 10) : 10;
     let page = req.query.page ? req.query.page - 1 : 0;
     let cat = req.params.catCode;
     try {
         let data = await PlaceModel
-            .find({ category_code:{$in:[cat]} })
+            .find({ category_code: { $in: [cat] } })
             .limit(perPage)
             .skip(perPage * page);
         res.status(201).json(data);
@@ -34,14 +34,14 @@ router.get("/category/:catCode", async (req, res) => {
         res.status(502).json({ err });
     }
 })
-// need to check
+
 router.get("/tags/:tagId", async (req, res) => {
     let perPage = req.query.perPage ? Math.min(req.query.perPage, 10) : 10;
     let page = req.query.page ? req.query.page - 1 : 0;
     let tag = req.params.tagId;
     try {
         let data = await PlaceModel
-            .find({ tags_id:{$in:[tag]} })
+            .find({ tags_id: { $in: [tag] } })
             .limit(perPage)
             .skip(perPage * page);
         res.status(201).json(data);
