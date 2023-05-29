@@ -1,0 +1,74 @@
+[
+  {
+    "Game": "The King of Fighters 2003",
+    "GameLink": "https://en.wikipedia.org/wiki/The_King_of_Fighters_2003",
+    "Genre": "Fighting",
+    "Year": 2005,
+    "Dev": "Eolith",
+    "DevLink": "https://en.wikipedia.org/wiki/Eolith",
+    "Publisher": "Eolith",
+    "PublisherLink": "https://en.wikipedia.org/wiki/Eolith",
+    "Platform": "the XBOX",
+    "PlatformLink": "https://en.wikipedia.org/wiki/Xbox_(console)"
+    },
+    {
+    "Game": "The King of Fighters Neowave",
+    "GameLink": "https://en.wikipedia.org/wiki/The_King_of_Fighters_Neowave",
+    "Genre": "Fighting",
+    "Year": 2006,
+    "Dev": "SNK Playmore",
+    "DevLink": "https://en.wikipedia.org/wiki/SNK_Playmore",
+    "Publisher": "SNK Playmore",
+    "PublisherLink": "https://en.wikipedia.org/wiki/SNK_Playmore",
+    "Platform": "the XBOX",
+    "PlatformLink": "https://en.wikipedia.org/wiki/Xbox_(console)"
+    },
+    {
+    "Game": "The King of Fighters: Maximum Impact",
+    "GameLink": "https://en.wikipedia.org/wiki/KOF:_Maximum_Impact",
+    "Genre": "Fighting",
+    "Year": 2005,
+    "Dev": "SNK Playmore",
+    "DevLink": "https://en.wikipedia.org/wiki/SNK_Playmore",
+    "Publisher": "SNK Playmore",
+    "PublisherLink": "https://en.wikipedia.org/wiki/SNK_Playmore",
+    "Platform": "the XBOX",
+    "PlatformLink": "https://en.wikipedia.org/wiki/Xbox_(console)"
+    },
+    {
+    "Game": "Knight's Apprentice: Memorick's Adventures",
+    "GameLink": null,
+    "Genre": "Action-Adventure",
+    "Year": 2004,
+    "Dev": "Microids",
+    "DevLink": "https://en.wikipedia.org/wiki/Microids",
+    "Publisher": "XS Games",
+    "PublisherLink": "https://en.wikipedia.org/wiki/XS_Games",
+    "Platform": "the XBOX",
+    "PlatformLink": "https://en.wikipedia.org/wiki/Xbox_(console)"
+    },
+    {
+    "Game": "Knights of the Temple: Infernal Crusade",
+    "GameLink": "https://en.wikipedia.org/wiki/Knights_of_the_Temple:_Infernal_Crusade",
+    "Genre": "Action-Adventure/Hack and slash",
+    "Year": 2004,
+    "Dev": "Starbreeze Studios",
+    "DevLink": "https://en.wikipedia.org/wiki/Starbreeze_Studios",
+    "Publisher": "TDK Mediactive",
+    "PublisherLink": "https://en.wikipedia.org/wiki/TDK_Mediactive",
+    "Platform": "the XBOX",
+    "PlatformLink": "https://en.wikipedia.org/wiki/Xbox_(console)"
+    },
+    {
+    "Game": "Knights of the Temple II",
+    "GameLink": "https://en.wikipedia.org/wiki/Knights_of_the_Temple_II",
+    "Genre": "Action-Adventure/Hack and slash",
+    "Year": 2005,
+    "Dev": "Cauldron",
+    "DevLink": "https://en.wikipedia.org/wiki/Cauldron_(video_game_company)",
+    "Publisher": "Playlogic Entertainment, TDK Mediactive",
+    "PublisherLink": null,
+    "Platform": "the XBOX",
+    "PlatformLink": "https://en.wikipedia.org/wiki/Xbox_(console)"
+    }
+]

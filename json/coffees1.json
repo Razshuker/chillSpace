@@ -1,0 +1,26 @@
+[
+  {
+    "name":"Black coffee",
+    "price":8,
+    "ml":250,
+    "img_url":"https://images.pexels.com/photos/1749303/pexels-photo-1749303.jpeg?auto=compress&cs=tinysrgb&w=400"
+  },
+  {
+    "name":"Latte coffee small",
+    "price":14,
+    "ml":330,
+    "img_url":"https://images.pexels.com/photos/437716/pexels-photo-437716.jpeg?auto=compress&cs=tinysrgb&w=400"
+  },
+  {
+    "name":"Latte coffee large",
+    "price":18,
+    "ml":500,
+    "img_url":"https://images.pexels.com/photos/2668510/pexels-photo-2668510.jpeg?auto=compress&cs=tinysrgb&w=400"
+  },
+  {
+    "name":"Chocolate Milkshake",
+    "price":25,
+    "ml":500,
+    "img_url":"https://images.pexels.com/photos/3727250/pexels-photo-3727250.jpeg?auto=compress&cs=tinysrgb&w=400"
+  }
+]

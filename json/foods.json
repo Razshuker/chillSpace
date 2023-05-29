@@ -1,0 +1,49 @@
+[{
+  "_id": {
+    "$oid": "63ee010c4fde6f880aff2017"
+  },
+  "name": "Burger",
+  "price": 50,
+  "cals": 800,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63ee01444fde6f880aff2019"
+  },
+  "name": "Chips",
+  "price": 20,
+  "cals": 400,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63ee015c4fde6f880aff201b"
+  },
+  "name": "Chicken",
+  "price": 45,
+  "cals": 500,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63ee01764fde6f880aff201d"
+  },
+  "name": "Assado",
+  "price": 60,
+  "cals": 800,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63ee1083251260e37ea39e49"
+  },
+  "name": "nuki",
+  "price": 60,
+  "cals": 800,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63f4827e6ff5404c0b75b926"
+  },
+  "name": "Pizza",
+  "price": 40,
+  "cals": 222,
+  "__v": 0
+}]
