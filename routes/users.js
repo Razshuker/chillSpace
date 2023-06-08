@@ -1,6 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const { auth } = require("../middlewares/auth");
+const { auth, authAdmin } = require("../middlewares/auth");
 const { validateUser, UserModel, validateLogin, createToken, validateUpdateUser } = require("../models/userModel");
 const { route } = require("./posts");
 
