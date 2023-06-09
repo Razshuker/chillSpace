@@ -93,6 +93,22 @@ router.put("/updateUser", auth, async (req, res) => {
   }
 })
 
+router.patch("/changeRole/:id/:role", authAdmin, async (req, res) => {
+  try {
+    const id = req.params.id;
+    const newRole = req.params.role;
+    if (id == req.tokenData._id || id == "6482ee4d0c5009a9b1e6048b") {
+      res.status(401).json({ msg: "you can't change strong admin or your role" });
+    }
+    let user = await UserModel.updateOne({ _id: id }, { role: newRole });
+    res.status(201).json(user);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(502).json({ err })
+  }
+})
+
 router.patch("/changePassword", auth, async (req, res) => {
   try {
     let user = await UserModel.findOne({ _id: req.tokenData._id });
@@ -131,7 +147,19 @@ router.delete("/deleteAccount", auth, async (req, res) => {
     if (!passwordValid) {
       return res.status(401).json({ err: "Password worng, can't delete account" });
     }
-    let data = await UserModel.delteOne({ _id: req.tokenData._id });
+    let data = await UserModel.deleteOne({ _id: req.tokenData._id });
+    res.status(201).json(data);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(502).json({ err })
+  }
+})
+
+router.delete("/delete/:id", auth, async (req, res) => {
+  try {
+    const id = req.params.id;
+    let data = await UserModel.deleteOne({ _id: id });
     res.status(201).json(data);
   }
   catch (err) {
