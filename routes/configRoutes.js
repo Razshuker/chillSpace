@@ -4,6 +4,7 @@ const placesR = require("./places");
 const categoriesR = require("./categories");
 const tagsR = require("./tags");
 const postsR = require("./posts");
+const typesR = require("./types");
 
 
 
@@ -15,6 +16,7 @@ exports.routesInit = (app) => {
   app.use("/categories", categoriesR);
   app.use("/tags", tagsR);
   app.use("/posts", postsR);
+  app.use("/types", typesR);
 
 
   app.use("/*", (req, res) => {
