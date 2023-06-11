@@ -15,7 +15,7 @@ let schema = new mongoose.Schema({
     date_created: {
         type: Date, default: Date.now
     },
-    tags_id: Array
+    tags_name: Array
 })
 exports.PlaceModel = mongoose.model("places", schema)
 
