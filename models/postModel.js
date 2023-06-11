@@ -12,6 +12,9 @@ let schema = new mongoose.Schema({
     },
     user_id: String,
     nickname: String,
+    report: {
+        type: Boolean, default: false
+    },
     date_created: {
         type: Date, default: Date.now
     },

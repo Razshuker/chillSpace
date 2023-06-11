@@ -15,7 +15,7 @@ exports.validateCategory = (_reqBody) => {
     let joiSchema = Joi.object({
         name: Joi.string().min(2).max(100).required(),
         description: Joi.string().min(2).max(400).required(),
-        category_code: Joi.String().min(2).max(50).required()
+        category_code: Joi.string().min(2).max(50).required()
     })
     return joiSchema.validate(_reqBody)
 }

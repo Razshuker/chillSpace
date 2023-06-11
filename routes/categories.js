@@ -1,5 +1,7 @@
 const express = require("express");
 const { CategoryModel, validateCategory } = require("../models/categoryModel");
+const { required } = require("joi");
+const { auth, authAdmin } = require("../middlewares/auth");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -29,7 +31,7 @@ router.get("/single/:id", async (req, res) => {
     }
 })
 
-router.post("/", async (req, res) => {
+router.post("/", authAdmin, async (req, res) => {
     let validBody = validateCategory(req.body);
     if (validBody.error) {
         res.status(400).json(validBody.error.details);
@@ -37,7 +39,7 @@ router.post("/", async (req, res) => {
     try {
         const newCat = new CategoryModel(req.body)
         await newCat.save();
-        res.status(200).json(data);
+        res.status(200).json(newCat);
     }
     catch (err) {
         console.log(err);
@@ -45,7 +47,7 @@ router.post("/", async (req, res) => {
     }
 })
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", authAdmin, async (req, res) => {
     const id = req.params.id;
     let validBody = validateCategory(req.body);
     if (validBody.error) {
@@ -61,7 +63,7 @@ router.put("/:id", async (req, res) => {
     }
 })
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authAdmin, async (req, res) => {
     const id = req.params.id;
     try {
         const data = await CategoryModel.deleteOne({ _id: id })

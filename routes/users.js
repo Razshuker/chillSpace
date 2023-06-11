@@ -1,6 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const { auth } = require("../middlewares/auth");
+const { auth, authAdmin } = require("../middlewares/auth");
 const { validateUser, UserModel, validateLogin, createToken, validateUpdateUser } = require("../models/userModel");
 const { route } = require("./posts");
 
@@ -10,11 +10,21 @@ router.get("/", async (req, res) => {
   res.json({ msg: "Users endpoint" });
 })
 
+router.get("/usersList", authAdmin, async (req, res) => {
+  try {
+    let data = await UserModel.find({}, { password: 0 })
+    res.status(200).json(data)
+  }
+  catch (err) {
+    console.log(err);
+    res.status(502).json({ err })
+  }
+})
 
 router.get("/userInfo", auth, async (req, res) => {
   try {
     let user = await UserModel.findOne({ _id: req.tokenData._id }, { password: 0 })
-    res.json(user)
+    res.status(200).json(user)
   }
   catch (err) {
     console.log(err);
@@ -58,7 +68,7 @@ router.post("/login", async (req, res) => {
     if (!passwordValid) {
       return res.status(401).json({ err: "Password worng" });
     }
-    let token = createToken(user._id)
+    let token = createToken(user._id, user.role);
     return res.json({ token })
   }
   catch (err) {
@@ -75,6 +85,22 @@ router.put("/updateUser", auth, async (req, res) => {
       return res.status(400).json(validBody.error.details);
     }
     let user = await UserModel.updateOne({ _id: req.tokenData._id }, req.body);
+    res.status(201).json(user);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(502).json({ err })
+  }
+})
+
+router.patch("/changeRole/:id/:role", authAdmin, async (req, res) => {
+  try {
+    const id = req.params.id;
+    const newRole = req.params.role;
+    if (id == req.tokenData._id || id == "6482ee4d0c5009a9b1e6048b") {
+      res.status(401).json({ msg: "you can't change strong admin or your role" });
+    }
+    let user = await UserModel.updateOne({ _id: id }, { role: newRole });
     res.status(201).json(user);
   }
   catch (err) {
@@ -121,7 +147,19 @@ router.delete("/deleteAccount", auth, async (req, res) => {
     if (!passwordValid) {
       return res.status(401).json({ err: "Password worng, can't delete account" });
     }
-    let data = await UserModel.delteOne({ _id: req.tokenData._id });
+    let data = await UserModel.deleteOne({ _id: req.tokenData._id });
+    res.status(201).json(data);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(502).json({ err })
+  }
+})
+
+router.delete("/delete/:id", auth, async (req, res) => {
+  try {
+    const id = req.params.id;
+    let data = await UserModel.deleteOne({ _id: id });
     res.status(201).json(data);
   }
   catch (err) {
