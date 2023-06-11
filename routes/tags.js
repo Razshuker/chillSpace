@@ -37,7 +37,7 @@ router.post("/", async (req, res) => {
     try {
         const newTag = new TagModel(req.body)
         await newTag.save();
-        res.status(200).json(data);
+        res.status(200).json(newTag);
     }
     catch (err) {
         console.log(err);
