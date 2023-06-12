@@ -35,9 +35,9 @@ router.post("/", async (req, res) => {
         res.status(400).json(validBody.error.details)
     }
     try {
-        const newTag = new PostModel(req.body)
-        await newTag.save();
-        res.status(200).json(data);
+        const newPost = new PostModel(req.body)
+        await newPost.save();
+        res.status(200).json(newPost);
     }
     catch (err) {
         console.log(err);
