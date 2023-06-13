@@ -28,7 +28,7 @@ exports.validatePlace = (_reqBody) => {
         phone: Joi.string().min(4).max(25).allow(null, ""),
         location: Joi.object().min(2).max(25).required(),
         description: Joi.string().min(2).max(1500).required(),
-        open_hours: Joi.object().min(1).max(7).required(),
+        open_hours: Joi.object().min(1).max(7).allow(null,""),
         area: Joi.string().min(2).max(100).required(),
         tags_name: Joi.array().min(0).max(100).allow(null, ""),
         categories_code: Joi.array().min(0).max(99).allow(null, ""),
