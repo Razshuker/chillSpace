@@ -18,6 +18,19 @@ router.get("/", async (req, res) => {
     }
 })
 
+router.get("/count", async(req,res) => {
+    try{
+        const count = await PlaceModel.count();
+        res.status(200).json(count);
+        
+    }
+    catch(err){
+        console.log(err);
+        res.status(502).json({err})
+    }
+
+})
+
 router.get("/category/:catCode", async (req, res) => {
     let perPage = req.query.perPage ? Math.min(req.query.perPage, 10) : 10;
     let page = req.query.page ? req.query.page - 1 : 0;
