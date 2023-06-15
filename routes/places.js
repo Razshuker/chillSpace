@@ -78,7 +78,7 @@ router.get("/single/:id", async (req, res) => {
 })
 
 
-router.post("/", async (req, res) => {
+router.post("/",authAdmin, async (req, res) => {
     let validBody = validatePlace(req.body);
     if (validBody.error) {
         return res.status(400).json(validBody.error.details)
