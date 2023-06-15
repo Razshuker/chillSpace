@@ -1,5 +1,6 @@
 const express = require("express");
 const { TagModel, validateTag } = require("../models/tagModel");
+const { authAdmin } = require("../middlewares/auth");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -29,7 +30,7 @@ router.get("/single/:id", async (req, res) => {
     }
 })
 
-router.post("/", async (req, res) => {
+router.post("/",authAdmin, async (req, res) => {
     const validBody = validateTag(req.body);
     if (validBody.error) {
         res.status(400).json(validBody.error.details)
@@ -45,7 +46,7 @@ router.post("/", async (req, res) => {
     }
 })
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", authAdmin, async (req, res) => {
     const id = req.params.id;
     const validBody = validateTag(req.body);
     if (validBody.error) {
@@ -61,7 +62,7 @@ router.put("/:id", async (req, res) => {
     }
 })
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",authAdmin, async (req, res) => {
     const id = req.params.id;
     try {
         const data = await TagModel.deleteOne({ _id: id })
