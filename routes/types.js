@@ -1,5 +1,6 @@
 const express = require("express");
 const { TypeModel,validateType } = require("../models/typeModel");
+const { authAdmin } = require("../middlewares/auth");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -30,7 +31,7 @@ router.get("/single/:id", async (req, res) => {
 })
 
 
-router.post("/", async (req, res) => {
+router.post("/",authAdmin, async (req, res) => {
     let validBody = validateType(req.body);
     if (validBody.error) {
         return res.status(400).json(validBody.error.details)
@@ -46,7 +47,7 @@ router.post("/", async (req, res) => {
     }
 })
 
-router.put("/:id", async (req, res) => {
+router.put("/:id",authAdmin, async (req, res) => {
     const id = req.params.id;
     const validBody = validateType(req.body);
     if (validBody.error) {
@@ -62,7 +63,7 @@ router.put("/:id", async (req, res) => {
     }
 })
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",authAdmin, async (req, res) => {
     const id = req.params.id;
     try {
         const data = await TypeModel.deleteOne({ _id: id })
