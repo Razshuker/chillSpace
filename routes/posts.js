@@ -16,6 +16,7 @@ router.get("/", async (req, res) => {
         res.status(502).json({ err })
     }
 })
+
 router.get("/reported", async (req, res) => {
     const perPage = req.query.perPage || 5;
     const page = req.query.page - 1 || 0;
