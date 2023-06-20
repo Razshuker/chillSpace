@@ -77,28 +77,25 @@ router.put("/:id", async (req, res) => {
     }
 })
 
-router.patch("/addLike/:idPost",auth,  async (req, res) => {
+router.patch("/addLike/:idPost",auth , async (req, res) => {
     try {
         const idPost = req.params.idPost;
-        const data = await PostModel.updateOne({ _id: idPost },  {$push:{ likes: req.tokenData._id }})
-        res.status(200).json(data);
+        const idUser = req.tokenData._id;
+        const post = await PostModel.findOne({ _id: idPost })
+        if(post.likes.includes(idUser)){
+            const data = await PostModel.updateOne({ _id: idPost },  {$pull:{ likes: idUser }})
+            res.status(200).json(data);
+        }
+        else{
+            const data = await PostModel.updateOne({ _id: idPost },  {$push:{ likes: idUser }})
+            res.status(200).json(data);
+        }
     }
     catch (err) {
         console.log(err);
         res.status(502).json({ err })
     }
 })
-// router.patch("/addLike/:id", async (req, res) => {
-//     try {
-//         const id = req.params.id;
-//         const data = await PostModel.updateOne({ _id: id }, { $inc: { likes: 1 } })
-//         res.status(200).json(data);
-//     }
-//     catch (err) {
-//         console.log(err);
-//         res.status(502).json({ err })
-//     }
-// })
 
 router.patch("/confirmPost/:id", async (req, res) => {
     try {
