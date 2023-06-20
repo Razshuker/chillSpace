@@ -1,5 +1,6 @@
 const express = require("express");
 const { PostModel, validatePost } = require("../models/postModel");
+const { auth } = require("../middlewares/auth");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -76,10 +77,10 @@ router.put("/:id", async (req, res) => {
     }
 })
 
-router.patch("/addLike/:id", async (req, res) => {
+router.patch("/addLike/:idPost",auth,  async (req, res) => {
     try {
-        const id = req.params.id;
-        const data = await PostModel.updateOne({ _id: id }, { $inc: { likes: 1 } })
+        const idPost = req.params.idPost;
+        const data = await PostModel.updateOne({ _id: idPost },  {$push:{ likes: req.tokenData._id }})
         res.status(200).json(data);
     }
     catch (err) {
@@ -87,6 +88,17 @@ router.patch("/addLike/:id", async (req, res) => {
         res.status(502).json({ err })
     }
 })
+// router.patch("/addLike/:id", async (req, res) => {
+//     try {
+//         const id = req.params.id;
+//         const data = await PostModel.updateOne({ _id: id }, { $inc: { likes: 1 } })
+//         res.status(200).json(data);
+//     }
+//     catch (err) {
+//         console.log(err);
+//         res.status(502).json({ err })
+//     }
+// })
 
 router.patch("/confirmPost/:id", async (req, res) => {
     try {
