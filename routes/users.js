@@ -32,6 +32,17 @@ router.get("/userInfo", auth, async (req, res) => {
   }
 })
 
+router.get("/favorites", auth, async (req, res) => {
+  try {
+    let user = await UserModel.findOne({ _id: req.tokenData._id })
+    res.status(200).json(user.favorites)
+  }
+  catch (err) {
+    console.log(err);
+    res.status(502).json({ err })
+  }
+})
+
 
 router.post("/", async (req, res) => {
   let validBody = validateUser(req.body);
