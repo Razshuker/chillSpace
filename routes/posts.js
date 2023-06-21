@@ -77,7 +77,7 @@ router.put("/:id", async (req, res) => {
     }
 })
 
-router.patch("/addLike/:idPost",auth , async (req, res) => {
+router.patch("/changeLike/:idPost",auth , async (req, res) => {
     try {
         const idPost = req.params.idPost;
         const idUser = req.tokenData._id;
