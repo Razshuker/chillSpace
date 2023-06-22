@@ -6,8 +6,15 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     const perPage = req.query.perPage || 5;
     const page = req.query.page - 1 || 0;
+    const search = req.query.s;
+    let myFilter = {};
     try {
-        const data = await PostModel.find({})
+        if (search) {
+            let searchExp = new RegExp(search, "i");
+            myFilter = {title: searchExp};
+        }
+        const data = await PostModel
+            .find(myFilter)
             .limit(perPage)
             .skip(perPage * page)
         res.status(200).json(data);
@@ -77,17 +84,17 @@ router.put("/:id", async (req, res) => {
     }
 })
 
-router.patch("/changeLike/:idPost",auth , async (req, res) => {
+router.patch("/changeLike/:idPost", auth, async (req, res) => {
     try {
         const idPost = req.params.idPost;
         const idUser = req.tokenData._id;
         const post = await PostModel.findOne({ _id: idPost })
-        if(post.likes.includes(idUser)){
-            const data = await PostModel.updateOne({ _id: idPost },  {$pull:{ likes: idUser }})
+        if (post.likes.includes(idUser)) {
+            const data = await PostModel.updateOne({ _id: idPost }, { $pull: { likes: idUser } })
             res.status(200).json(data);
         }
-        else{
-            const data = await PostModel.updateOne({ _id: idPost },  {$push:{ likes: idUser }})
+        else {
+            const data = await PostModel.updateOne({ _id: idPost }, { $push: { likes: idUser } })
             res.status(200).json(data);
         }
     }

@@ -31,6 +31,17 @@ router.get("/userInfo", auth, async (req, res) => {
     res.status(502).json({ err })
   }
 })
+router.get("/userInfo/:id", async (req, res) => {
+  try {
+    let idUser = req.params.id;
+    let user = await UserModel.findOne({ _id: idUser}, { password: 0 })
+    res.status(200).json(user)
+  }
+  catch (err) {
+    console.log(err);
+    res.status(502).json({ err })
+  }
+})
 
 router.get("/favorites", auth, async (req, res) => {
   try {
