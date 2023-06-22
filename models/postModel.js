@@ -25,6 +25,7 @@ exports.validatePost = (_reqBody) => {
         location: Joi.object().min(2).max(2).allow(null, ""),
         description: Joi.string().min(2).max(400).required(),
         place_url: Joi.string().min(2).max(400).allow(null, ""),
+        user_id: Joi.string().min(2).max(400).required(),
     })
     return joiSchema.validate(_reqBody)
 }
