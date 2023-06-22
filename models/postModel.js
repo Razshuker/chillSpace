@@ -9,7 +9,6 @@ let schema = new mongoose.Schema({
     place_url: String,
     likes: Array,
     user_id: String,
-    nickname: String,
     report: {
         type: Boolean, default: false
     },
