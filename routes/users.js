@@ -32,6 +32,17 @@ router.get("/userInfo", auth, async (req, res) => {
   }
 })
 
+router.get("/favorites", auth, async (req, res) => {
+  try {
+    let user = await UserModel.findOne({ _id: req.tokenData._id })
+    res.status(200).json(user.favorites)
+  }
+  catch (err) {
+    console.log(err);
+    res.status(502).json({ err })
+  }
+})
+
 
 router.post("/", async (req, res) => {
   let validBody = validateUser(req.body);
@@ -127,13 +138,19 @@ router.patch("/changePassword", auth, async (req, res) => {
   }
 })
 
-router.patch("/addFavorite", auth, async (req, res) => {
+router.patch("/editFavorite", auth, async (req, res) => {
   try {
     let user = await UserModel.findOne({ _id: req.tokenData._id });
     let favs_ar = user.favorites;
-    let new_favs_ar = [...favs_ar, req.body.favorite];
-    let data = await UserModel.updateOne({ _id: user._id }, { favorites: new_favs_ar });
-    res.status(200).json(data);
+    let index = favs_ar.indexOf(req.body.post_id);
+    if (index == -1) {
+      let new_favs_ar = [...favs_ar, req.body.post_id];
+      let data = await UserModel.updateOne({ _id: user._id }, { favorites: new_favs_ar });
+      return res.status(200).json(data);
+    }
+    favs_ar.splice(index, 1);
+    let data = await UserModel.updateOne({ _id: user._id }, { favorites: favs_ar });
+    return res.status(200).json(data);
   }
   catch (err) {
     console.log(err);
