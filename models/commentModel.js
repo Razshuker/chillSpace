@@ -13,7 +13,9 @@ exports.CommentModel = mongoose.model("comments", schema)
 
 exports.validateComment = (_reqBody) => {
     let joiSchema = Joi.object({
-        text: Joi.string().min(2).max(400).required()
+        text: Joi.string().min(1).max(400).required(),
+        user_id: Joi.string().min(2).max(400).required(),
+        post_id: Joi.string().min(2).max(400).required()
     })
     return joiSchema.validate(_reqBody)
 }

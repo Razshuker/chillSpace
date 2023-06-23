@@ -1,5 +1,6 @@
 const express = require("express");
 const { CommentModel, validateComment } = require("../models/commentModel");
+const { auth } = require("../middlewares/auth");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -9,6 +10,17 @@ router.get("/", async (req, res) => {
         const data = await CommentModel.find({})
             .limit(perPage)
             .skip(perPage * page)
+        res.status(200).json(data);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(502).json({ err })
+    }
+})
+router.get("/:idPost", async (req, res) => {
+    const idPost = req.params.idPost;
+    try {
+        const data = await CommentModel.find({post_id:idPost})
         res.status(200).json(data);
     }
     catch (err) {
@@ -37,7 +49,7 @@ router.post("/", async (req, res) => {
     try {
         const newComment = new CommentModel(req.body)
         await newComment.save();
-        res.status(200).json(data);
+        res.status(200).json(newComment);
     }
     catch (err) {
         console.log(err);
