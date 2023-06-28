@@ -6,6 +6,7 @@ const tagsR = require("./tags");
 const postsR = require("./posts");
 const typesR = require("./types");
 const commentsR = require("./comments");
+const uploadR = require("./upload");
 
 
 
@@ -19,6 +20,7 @@ exports.routesInit = (app) => {
   app.use("/posts", postsR);
   app.use("/types", typesR);
   app.use("/comments", commentsR);
+  app.use("/upload", uploadR);
 
 
   app.use("/*", (req, res) => {
