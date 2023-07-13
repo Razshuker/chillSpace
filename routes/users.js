@@ -1,6 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const { auth, authAdmin } = require("../middlewares/auth");
+const { auth, authAdmin, authCookies } = require("../middlewares/auth");
 const { validateUser, UserModel, validateLogin, createToken, validateUpdateUser } = require("../models/userModel");
 const { route } = require("./posts");
 
@@ -31,6 +31,19 @@ router.get("/userInfo", auth, async (req, res) => {
     res.status(502).json({ err })
   }
 })
+//check if cookies work
+router.get("/userInfoCookie", authCookies, async (req, res) => {
+  try {
+    let user = await UserModel.findOne({ _id: req.tokenData._id }, { password: 0 })
+    res.status(200).json(user)
+  }
+  catch (err) {
+    console.log(err);
+    res.status(502).json({ err })
+  }
+})
+
+
 router.get("/userInfo/:id", async (req, res) => {
   try {
     let idUser = req.params.id;
@@ -98,6 +111,40 @@ router.post("/login", async (req, res) => {
     res.status(502).json({ err })
   }
 })
+
+
+// cookies
+
+// router.post("/login", async (req, res) => {
+//   let validBody = validateLogin(req.body);
+//   if (validBody.error) {
+//     return res.status(400).json(validBody.error.details);
+//   }
+//   try {
+//     let user = await UserModel.findOne({ email: req.body.email });
+//     if (!user) {
+//       return res.status(401).json({ err: "Email not found" });
+//     }
+//     let passwordValid = await bcrypt.compare(req.body.password, user.password);
+//     if (!passwordValid) {
+//       return res.status(401).json({ err: "Password worng" });
+//     }
+//     let token = createToken(user._id, user.role);
+//     return res.cookie("token", token,{
+//         httpOnly:true,
+//         expires: new Date(Date.now() + 1000 * 60 * 60 * 24)
+//     }).json({ msg:"You logged in" })
+//   }
+//   catch (err) {
+//     console.log(err);
+//     res.status(502).json({ err })
+//   }
+// })
+
+// router.post("/logoutCookie", (req, res) => {
+//   res.clearCookie("token").json({ msg: "You have been logged out" });
+// });
+
 
 
 router.put("/updateUser", auth, async (req, res) => {
