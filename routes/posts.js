@@ -7,16 +7,19 @@ router.get("/", async (req, res) => {
     const perPage = req.query.perPage || 5;
     const page = req.query.page - 1 || 0;
     const search = req.query.s;
+    const sortBy = req.query.sortBy;
+    const reverse = req.query.reverse == -1 ? -1 : 1;
     let myFilter = {};
     try {
         if (search) {
             let searchExp = new RegExp(search, "i");
-            myFilter = {title: searchExp};
+            myFilter = { title: searchExp };
         }
         const data = await PostModel
             .find(myFilter)
             .limit(perPage)
             .skip(perPage * page)
+            .sort({ [sortBy]: reverse })
         res.status(200).json(data);
     }
     catch (err) {
@@ -91,11 +94,11 @@ router.patch("/changeLike/:idPost", auth, async (req, res) => {
         const post = await PostModel.findOne({ _id: idPost })
         if (post.likes.includes(idUser)) {
             const data = await PostModel.updateOne({ _id: idPost }, { $pull: { likes: idUser } })
-            res.status(200).json(data);
+            res.status(200).json({ data, isAdded: false });
         }
         else {
             const data = await PostModel.updateOne({ _id: idPost }, { $push: { likes: idUser } })
-            res.status(200).json(data);
+            res.status(200).json({ data, isAdded: true });
         }
     }
     catch (err) {
