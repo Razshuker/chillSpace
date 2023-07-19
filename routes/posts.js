@@ -7,6 +7,7 @@ router.get("/", async (req, res) => {
     const perPage = req.query.perPage || 5;
     const page = req.query.page - 1 || 0;
     const search = req.query.s;
+    const reverse = req.query.reverse == "yes" ? 1:-1;
     let myFilter = {};
     try {
         if (search) {
@@ -17,6 +18,7 @@ router.get("/", async (req, res) => {
             .find(myFilter)
             .limit(perPage)
             .skip(perPage * page)
+            .sort({date_created:reverse})
         res.status(200).json(data);
     }
     catch (err) {
