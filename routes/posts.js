@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
     try {
         if (search) {
             let searchExp = new RegExp(search, "i");
-            myFilter = {title: searchExp};
+            myFilter = { title: searchExp };
         }
         const data = await PostModel
             .find(myFilter)
@@ -93,11 +93,11 @@ router.patch("/changeLike/:idPost", auth, async (req, res) => {
         const post = await PostModel.findOne({ _id: idPost })
         if (post.likes.includes(idUser)) {
             const data = await PostModel.updateOne({ _id: idPost }, { $pull: { likes: idUser } })
-            res.status(200).json(data);
+            res.status(200).json({ data, isAdded: false });
         }
         else {
             const data = await PostModel.updateOne({ _id: idPost }, { $push: { likes: idUser } })
-            res.status(200).json(data);
+            res.status(200).json({ data, isAdded: true });
         }
     }
     catch (err) {
