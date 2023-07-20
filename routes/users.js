@@ -20,6 +20,9 @@ router.get("/usersList", authAdmin, async (req, res) => {
     res.status(502).json({ err })
   }
 })
+router.get("/checkToken",auth,async(req,res) =>{
+  res.json({_id:req.tokenData._id,role:req.tokenData.role})
+})
 
 router.get("/userInfo", auth, async (req, res) => {
   try {
