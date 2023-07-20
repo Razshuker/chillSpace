@@ -5,6 +5,9 @@ let schema = new mongoose.Schema({
     text: String,
     user_id: String,
     post_id: String,
+    report: {
+        type: Boolean, default: false
+    },
     date_created: {
         type: Date, default: Date.now
     },

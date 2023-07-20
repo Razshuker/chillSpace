@@ -17,6 +17,17 @@ router.get("/", async (req, res) => {
         res.status(502).json({ err })
     }
 })
+router.get("/reported", async (req, res) => {
+    try {
+        const data = await CommentModel.find({ report:true })
+        res.status(200).json(data);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(502).json({ err })
+    }
+})
+
 router.get("/:idPost", async (req, res) => {
     const idPost = req.params.idPost;
     try {
@@ -70,6 +81,19 @@ router.put("/:id", async (req, res) => {
     catch (err) {
         console.log(err);
         res.status(502).json({ err })
+    }
+})
+
+router.patch("/reportComment/:id/:report" , async(req,res) => {
+    try{
+        const id = req.params.id;
+        const report = req.params.report == "true" ? "false" : "true";
+        const data = await CommentModel.updateOne({_id:id},{report})
+        return res.status(200).json(data);
+    }
+    catch(err){
+        console.log(err);
+        res.status(502).json({err})
     }
 })
 
