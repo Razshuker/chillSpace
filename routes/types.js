@@ -1,5 +1,5 @@
 const express = require("express");
-const { TypeModel,validateType } = require("../models/typeModel");
+const { TypeModel, validateType } = require("../models/typeModel");
 const { authAdmin } = require("../middlewares/auth");
 const router = express.Router();
 
@@ -26,8 +26,19 @@ router.get("/single/:id", async (req, res) => {
     }
 })
 
+router.get("/count", async (req, res) => {
+    try {
+        const count = await TypeModel.count();
+        res.status(200).json(count);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(502).json({ err })
+    }
+})
 
-router.post("/",authAdmin, async (req, res) => {
+
+router.post("/", authAdmin, async (req, res) => {
     let validBody = validateType(req.body);
     if (validBody.error) {
         return res.status(400).json(validBody.error.details)
@@ -43,7 +54,7 @@ router.post("/",authAdmin, async (req, res) => {
     }
 })
 
-router.put("/:id",authAdmin, async (req, res) => {
+router.put("/:id", authAdmin, async (req, res) => {
     const id = req.params.id;
     const validBody = validateType(req.body);
     if (validBody.error) {
@@ -59,7 +70,7 @@ router.put("/:id",authAdmin, async (req, res) => {
     }
 })
 
-router.delete("/:id",authAdmin, async (req, res) => {
+router.delete("/:id", authAdmin, async (req, res) => {
     const id = req.params.id;
     try {
         const data = await TypeModel.deleteOne({ _id: id })

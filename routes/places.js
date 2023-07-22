@@ -18,17 +18,16 @@ router.get("/", async (req, res) => {
     }
 })
 
-router.get("/count", async(req,res) => {
-    try{
+router.get("/count", async (req, res) => {
+    try {
         const count = await PlaceModel.count();
         res.status(200).json(count);
-        
-    }
-    catch(err){
-        console.log(err);
-        res.status(502).json({err})
-    }
 
+    }
+    catch (err) {
+        console.log(err);
+        res.status(502).json({ err })
+    }
 })
 
 router.get("/category/:catCode", async (req, res) => {
@@ -78,7 +77,7 @@ router.get("/single/:id", async (req, res) => {
 })
 
 
-router.post("/",authAdmin, async (req, res) => {
+router.post("/", authAdmin, async (req, res) => {
     let validBody = validatePlace(req.body);
     if (validBody.error) {
         return res.status(400).json(validBody.error.details)

@@ -30,7 +30,18 @@ router.get("/single/:id", async (req, res) => {
     }
 })
 
-router.post("/",authAdmin, async (req, res) => {
+router.get("/count", async (req, res) => {
+    try {
+        const count = await TagModel.count();
+        res.status(200).json(count);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(502).json({ err })
+    }
+})
+
+router.post("/", authAdmin, async (req, res) => {
     const validBody = validateTag(req.body);
     if (validBody.error) {
         res.status(400).json(validBody.error.details)
@@ -62,7 +73,7 @@ router.put("/:id", authAdmin, async (req, res) => {
     }
 })
 
-router.delete("/:id",authAdmin, async (req, res) => {
+router.delete("/:id", authAdmin, async (req, res) => {
     const id = req.params.id;
     try {
         const data = await TagModel.deleteOne({ _id: id })
