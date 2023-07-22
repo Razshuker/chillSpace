@@ -4,8 +4,12 @@ const { authAdmin } = require("../middlewares/auth");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
+    const perPage = req.query.perPage || 5;
+    const page = req.query.page - 1 || 0;
     try {
-        const data = await TypeModel.find({});
+        const data = await TypeModel.find({})
+            .limit(perPage)
+            .skip(perPage * page)
         res.status(200).json(data);
     }
     catch (err) {
