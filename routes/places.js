@@ -6,8 +6,19 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     const perPage = req.query.perPage || 6;
     const page = req.query.page - 1 || 0;
+    const s = req.query.s;
+    let myFilter = {};
     try {
-        const data = await PlaceModel.find({})
+        let searchExp = new RegExp(s, "i");
+        if (s) {
+            myFilter = {
+                $or: [
+                    { name: searchExp },
+                    { description: searchExp }
+                ]
+            }
+        }
+        const data = await PlaceModel.find(myFilter)
             .limit(perPage)
             .skip(page * perPage)
         res.status(200).json(data);
