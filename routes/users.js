@@ -20,8 +20,8 @@ router.get("/usersList", authAdmin, async (req, res) => {
     res.status(502).json({ err })
   }
 })
-router.get("/checkToken",auth,async(req,res) =>{
-  res.json({_id:req.tokenData._id,role:req.tokenData.role})
+router.get("/checkToken", auth, async (req, res) => {
+  res.json({ _id: req.tokenData._id, role: req.tokenData.role })
 })
 
 router.get("/userInfo", auth, async (req, res) => {
@@ -50,7 +50,7 @@ router.get("/userInfoCookie", authCookies, async (req, res) => {
 router.get("/userInfo/:id", async (req, res) => {
   try {
     let idUser = req.params.id;
-    let user = await UserModel.findOne({ _id: idUser}, { password: 0 })
+    let user = await UserModel.findOne({ _id: idUser }, { password: 0 })
     res.status(200).json(user)
   }
   catch (err) {
@@ -203,9 +203,9 @@ router.patch("/editFavorite", auth, async (req, res) => {
   try {
     let user = await UserModel.findOne({ _id: req.tokenData._id });
     let favs_ar = user.favorites;
-    let index = favs_ar.indexOf(req.body.post_id);
+    let index = favs_ar.indexOf(req.body.place_id);
     if (index == -1) {
-      let new_favs_ar = [...favs_ar, req.body.post_id];
+      let new_favs_ar = [...favs_ar, req.body.place_id];
       let data = await UserModel.updateOne({ _id: user._id }, { favorites: new_favs_ar });
       return res.status(200).json(data);
     }
