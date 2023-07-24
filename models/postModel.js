@@ -4,7 +4,6 @@ const Joi = require("joi");
 let schema = new mongoose.Schema({
     img_url: String,
     title: String,
-    location: Object,
     description: String,
     place_url: String,
     likes: Array,
@@ -22,7 +21,6 @@ exports.validatePost = (_reqBody) => {
     let joiSchema = Joi.object({
         img_url: Joi.string().min(2).max(400).allow(null, ""),
         title: Joi.string().min(2).max(100).required(),
-        location: Joi.object().min(2).max(2).allow(null, ""),
         description: Joi.string().min(2).max(400).required(),
         place_url: Joi.string().min(2).max(400).allow(null, ""),
         user_id: Joi.string().min(2).max(400).required(),
