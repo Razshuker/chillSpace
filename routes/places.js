@@ -7,27 +7,37 @@ router.get("/", async (req, res) => {
     const perPage = req.query.perPage || 6;
     const page = req.query.page - 1 || 0;
     const s = req.query.s;
+    const area = req.query.area; 
+  
     let myFilter = {};
     try {
-        let searchExp = new RegExp(s, "i");
-        if (s) {
-            myFilter = {
-                $or: [
-                    { name: searchExp },
-                    { description: searchExp }
-                ]
-            }
+      let searchExp = new RegExp(s, "i");
+      if (s & area) {
+          myFilter = {
+            $and: [area],
+            $or: [
+              { name: searchExp },
+              { description: searchExp },
+            ],
+          };
         }
-        const data = await PlaceModel.find(myFilter)
-            .limit(perPage)
-            .skip(page * perPage)
-        res.status(200).json(data);
+      else if (s) {
+        myFilter = {
+          $or: [
+            { name: searchExp },
+            { description: searchExp },
+          ],
+        };
+      }
+      const data = await PlaceModel.find(myFilter)
+        .limit(perPage)
+        .skip(page * perPage);
+      res.status(200).json(data);
+    } catch (err) {
+      console.log(err);
+      res.status(502).json({ err });
     }
-    catch (err) {
-        console.log(err);
-        res.status(502).json({ err })
-    }
-})
+  });
 
 router.get("/count", async (req, res) => {
     try {
