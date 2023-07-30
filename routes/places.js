@@ -7,37 +7,36 @@ router.get("/", async (req, res) => {
     const perPage = req.query.perPage || 6;
     const page = req.query.page - 1 || 0;
     const s = req.query.s;
-    const area = req.query.area; 
-  
+    const area = req.query.area;
+    const tags = req.query.tags;
     let myFilter = {};
     try {
-      let searchExp = new RegExp(s, "i");
-      if (s & area) {
-          myFilter = {
-            $and: [area],
-            $or: [
-              { name: searchExp },
-              { description: searchExp },
-            ],
-          };
+        let searchExp = new RegExp(s, "i");
+        if (s) {
+            myFilter = {
+                $or: [
+                    { name: searchExp },
+                    { description: searchExp },
+                ],
+            };
         }
-      else if (s) {
-        myFilter = {
-          $or: [
-            { name: searchExp },
-            { description: searchExp },
-          ],
-        };
-      }
-      const data = await PlaceModel.find(myFilter)
-        .limit(perPage)
-        .skip(page * perPage);
-      res.status(200).json(data);
+        if (area) {
+            const areasArray = area.split(',');
+            myFilter.area = { $in: areasArray };
+        }
+        if (tags) {
+            const tagsArray = tags.split(',');
+            myFilter.tags_name = { $in: tagsArray };
+        }
+        const data = await PlaceModel.find(myFilter)
+            .limit(perPage)
+            .skip(page * perPage);
+        res.status(200).json(data);
     } catch (err) {
-      console.log(err);
-      res.status(502).json({ err });
+        console.log(err);
+        res.status(502).json({ err });
     }
-  });
+});
 
 router.get("/count", async (req, res) => {
     try {
