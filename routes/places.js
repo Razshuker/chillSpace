@@ -9,6 +9,8 @@ router.get("/", async (req, res) => {
     const s = req.query.s;
     const area = req.query.area;
     const tags = req.query.tags;
+    const types = req.query.types;
+    const cats = req.query.cats;
     let myFilter = {};
     try {
         let searchExp = new RegExp(s, "i");
@@ -27,6 +29,14 @@ router.get("/", async (req, res) => {
         if (tags) {
             const tagsArray = tags.split(',');
             myFilter.tags_name = { $in: tagsArray };
+        }
+        if (types) {
+            const typesArray = types.split(',');
+            myFilter.type = { $in: typesArray };
+        }
+        if (cats) {
+            const catsArray = cats.split(',');
+            myFilter.categories_code = { $in: catsArray };
         }
         const data = await PlaceModel.find(myFilter)
             .limit(perPage)
