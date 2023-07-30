@@ -8,6 +8,7 @@ router.get("/", async (req, res) => {
     const page = req.query.page - 1 || 0;
     const s = req.query.s;
     const area = req.query.area;
+    const tags = req.query.tags;
     let myFilter = {};
     try {
         let searchExp = new RegExp(s, "i");
@@ -20,10 +21,12 @@ router.get("/", async (req, res) => {
             };
         }
         if (area) {
-            // Split the comma-separated values into an array
             const areasArray = area.split(',');
-            // Use the $in operator to match documents with any of the specified areas
             myFilter.area = { $in: areasArray };
+        }
+        if (tags) {
+            const tagsArray = tags.split(',');
+            myFilter.tags_name = { $in: tagsArray };
         }
         const data = await PlaceModel.find(myFilter)
             .limit(perPage)
