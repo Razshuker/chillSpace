@@ -1,6 +1,6 @@
 const express = require("express");
 const { PostModel, validatePost } = require("../models/postModel");
-const { auth } = require("../middlewares/auth");
+const { auth, authAdmin } = require("../middlewares/auth");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
     }
 })
 
-router.get("/reported", async (req, res) => {
+router.get("/reported",authAdmin, async (req, res) => {
     try {
         const data = await PostModel.find({ report: true })
         res.status(200).json(data);
@@ -116,7 +116,7 @@ router.patch("/reportPost/:id/:report", async (req, res) => {
     }
 })
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",auth, async (req, res) => {
     const id = req.params.id;
     try {
         const data = await PostModel.deleteOne({ _id: id })
