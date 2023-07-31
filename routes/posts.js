@@ -7,18 +7,22 @@ router.get("/", async (req, res) => {
     const perPage = req.query.perPage || 5;
     const page = req.query.page - 1 || 0;
     const search = req.query.s;
-    const reverse = req.query.reverse == "yes" ? 1:-1;
+    const userId = req.query.userId;
+    const reverse = req.query.reverse == "yes" ? 1 : -1;
     let myFilter = {};
     try {
         if (search) {
             let searchExp = new RegExp(search, "i");
             myFilter = { title: searchExp };
         }
+        if (userId) {
+            myFilter = { user_id: userId };
+        }
         const data = await PostModel
             .find(myFilter)
             .limit(perPage)
             .skip(perPage * page)
-            .sort({date_created:reverse})
+            .sort({ date_created: reverse })
         res.status(200).json(data);
     }
     catch (err) {
@@ -27,7 +31,7 @@ router.get("/", async (req, res) => {
     }
 })
 
-router.get("/reported",authAdmin, async (req, res) => {
+router.get("/reported", authAdmin, async (req, res) => {
     try {
         const data = await PostModel.find({ report: true })
         res.status(200).json(data);
@@ -116,7 +120,7 @@ router.patch("/reportPost/:id/:report", async (req, res) => {
     }
 })
 
-router.delete("/:id",auth, async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
     const id = req.params.id;
     try {
         const data = await PostModel.deleteOne({ _id: id })
