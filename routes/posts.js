@@ -13,7 +13,13 @@ router.get("/", async (req, res) => {
     try {
         if (search) {
             let searchExp = new RegExp(search, "i");
-            myFilter = { title: searchExp };
+            myFilter = {
+                $or: [
+                    { title: searchExp },
+                    { place_url: search }
+                ]
+            };
+            // myFilter = {title: searchExp};
         }
         if (userId) {
             myFilter = { user_id: userId };
