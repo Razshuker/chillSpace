@@ -60,6 +60,21 @@ router.get("/count", async (req, res) => {
     }
 })
 
+router.get("/tagsArr", async (req, res) => {
+    let perPage = req.query.perPage || 5;
+    let page = req.query.page - 1 || 0;
+    try {
+        let data = await PlaceModel
+            .find({}, { _id: 1, tags_name: 1 })
+            .limit(perPage)
+            .skip(perPage * page);
+        res.status(201).json(data);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(502).json({ err });
+    }
+})
 router.get("/category/:catCode", async (req, res) => {
     let perPage = req.query.perPage ? Math.min(req.query.perPage, 10) : 10;
     let page = req.query.page ? req.query.page - 1 : 0;
@@ -107,16 +122,16 @@ router.get("/single/:id", async (req, res) => {
 })
 
 // find a place's id by its name (for searching posts by the place's name)
-router.get("/placeId/:name", async (req,res) => {
+router.get("/placeId/:name", async (req, res) => {
     const name = req.params.name;
-    try{
-        const data = await PlaceModel.findOne({name});
-        data&&res.status(200).send(data._id)
+    try {
+        const data = await PlaceModel.findOne({ name });
+        data && res.status(200).send(data._id)
     }
-    catch(err){
+    catch (err) {
         console.log(err);
-        res.status(502).json({err})
-    } 
+        res.status(502).json({ err })
+    }
 })
 
 
