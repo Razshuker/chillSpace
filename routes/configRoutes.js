@@ -7,6 +7,7 @@ const postsR = require("./posts");
 const typesR = require("./types");
 const commentsR = require("./comments");
 const uploadR = require("./upload");
+const gptApiR = require("./gptApi");
 
 
 
@@ -21,6 +22,7 @@ exports.routesInit = (app) => {
   app.use("/types", typesR);
   app.use("/comments", commentsR);
   app.use("/upload", uploadR);
+  app.use("/gptApi", gptApiR);
 
 
   app.use("/*", (req, res) => {
