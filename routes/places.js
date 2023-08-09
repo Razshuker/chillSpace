@@ -151,15 +151,21 @@ router.get("/single/:id", async (req, res) => {
 router.get("/placeId/:name", async (req, res) => {
     const name = req.params.name;
     try {
+        if (!name) {
+            res.status(400).json({ error: "Place name is required" });
+            return;
+        }
         const data = await PlaceModel.findOne({ name });
-        data && res.status(200).send(data._id)
-    }
-    catch (err) {
+        if (data) {
+            res.status(200).send(data._id);
+        } else {
+            res.status(404).json({ error: "Place not found" });
+        }
+    } catch (err) {
         console.log(err);
-        res.status(502).json({ err })
+        res.status(502).json({ err });
     }
-})
-
+});
 
 router.post("/", authAdmin, async (req, res) => {
     let validBody = validatePlace(req.body);

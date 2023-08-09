@@ -8,19 +8,19 @@ router.get("/", async (req, res) => {
     const page = req.query.page - 1 || 0;
     const search = req.query.s;
     const userId = req.query.userId;
+    const place = req.query.place;
     const reverse = req.query.reverse == "yes" ? 1 : -1;
     let myFilter = {};
     try {
         if (search) {
             let searchExp = new RegExp(search, "i");
-            myFilter = {
-                $or: [
-                    { title: searchExp },
-                    { place_url: search }
-                ]
-            };
-            // myFilter = {title: searchExp};
+            myFilter = { title: searchExp }
+
         }
+        else if(place) {
+            myFilter = {place_url: place }
+        }
+            // myFilter = {title: searchExp};
         if (userId) {
             myFilter = { user_id: userId };
         }
