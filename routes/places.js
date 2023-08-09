@@ -81,12 +81,18 @@ router.get("/whereToTravel", async (req, res) => {
     const members = req.query.members;
     const kind = req.query.kind;
     const query = {
-        $and: [{ tags_name: { $in: members } },
-        { tags_name: { $in: kind } },
-        { tags_name: tags_ar }]
-    }
+        $or: [
+            {
+                $and: [
+                    { tags_name: { $in: members } },
+                    { tags_name: { $in: kind } }
+                ]
+            },
+            { tags_name: { $in: tags_ar } }
+        ]
+    };
     try {
-        let data = await PlaceModel.find(query)
+        let data = await PlaceModel.find(query).limit(3)
         res.status(201).json(data);
     }
     catch (err) {
