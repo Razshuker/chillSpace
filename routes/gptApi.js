@@ -1,28 +1,37 @@
 const express = require("express");
-const openai = require('openai');
+// const openai = require('openai');
 const router = express.Router();
 
-// Set your OpenAI API key here
-const openaiApiKey = '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';
-openai.apiKey = openaiApiKey;
+const { Configuration, OpenAIApi } = require("openai");
 
-router.get("/", async (req, res) => {
-    res.json({ msg: "Welcome to GPT API" });
+const configuration = new Configuration({
+    apiKey: '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',
 });
+const openai = new OpenAIApi(configuration);
+
+
+
+// Set your OpenAI API key here
+// const openaiApiKey = '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';
+// apiKey = openaiApiKey;
+
+// router.get("/", async (req, res) => {
+//     res.json({ msg: "Welcome to GPT API" });
+// });
 
 router.post("/chatgpt", async (req, res) => {
     const prompt = req.body.prompt;
     try {
-        const response = await openai.Completion.create({
-            engine: 'text-davinci-002',
-            prompt: prompt,
-            max_tokens: 50,
-            n: 1,
-            stop: null,
-            temperature: 0.5,
+        // const response = await openai.Completion.create({
+        //     engine: 'text-davinci-002',
+        //     prompt: prompt,
+        // });
+        const chatCompletion = await openai.createChatCompletion({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: prompt }],
         });
-
-        res.json({ text: response.choices[0].text });
+        console.log(chatCompletion.data.choices[0].message);
+        res.json({ text: chatCompletion.data.choices[0].message });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while processing your request.' });
