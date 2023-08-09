@@ -60,6 +60,47 @@ router.get("/count", async (req, res) => {
     }
 })
 
+router.get("/tagsArr", async (req, res) => {
+    let perPage = req.query.perPage || 5;
+    let page = req.query.page - 1 || 0;
+    try {
+        let data = await PlaceModel
+            .find({}, { _id: 1, tags_name: 1 })
+            .limit(perPage)
+            .skip(perPage * page);
+        res.status(201).json(data);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(502).json({ err });
+    }
+})
+
+router.get("/whereToTravel", async (req, res) => {
+    const tags_ar = req.query.tags_ar;
+    const members = req.query.members;
+    const kind = req.query.kind;
+    const query = {
+        $or: [
+            {
+                $and: [
+                    { tags_name: { $in: members } },
+                    { tags_name: { $in: kind } }
+                ]
+            },
+            { tags_name: { $in: tags_ar } }
+        ]
+    };
+    try {
+        let data = await PlaceModel.find(query).limit(3)
+        res.status(201).json(data);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(502).json({ err });
+    }
+})
+
 router.get("/category/:catCode", async (req, res) => {
     let perPage = req.query.perPage ? Math.min(req.query.perPage, 10) : 10;
     let page = req.query.page ? req.query.page - 1 : 0;
@@ -125,8 +166,6 @@ router.get("/placeId/:name", async (req, res) => {
         res.status(502).json({ err });
     }
 });
-
-
 
 router.post("/", authAdmin, async (req, res) => {
     let validBody = validatePlace(req.body);
