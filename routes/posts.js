@@ -7,7 +7,7 @@ router.get("/", async (req, res) => {
     const perPage = req.query.perPage || 5;
     const page = req.query.page - 1 || 0;
     const search = req.query.s;
-    const userId = req.query.userId;
+    const user = req.query.user;
     const place = req.query.place;
     const reverse = req.query.reverse == "yes" ? 1 : -1;
     let myFilter = {};
@@ -21,8 +21,8 @@ router.get("/", async (req, res) => {
             myFilter = {place_url: place }
         }
             // myFilter = {title: searchExp};
-        if (userId) {
-            myFilter = { user_id: userId };
+        if (user) {
+            myFilter = { user_id: user };
         }
         const data = await PostModel
             .find(myFilter)
