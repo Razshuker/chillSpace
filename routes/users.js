@@ -20,6 +20,16 @@ router.get("/usersList", authAdmin, async (req, res) => {
     res.status(502).json({ err })
   }
 })
+router.get("/nickNames", async (req, res) => {
+  try {
+    let data = await UserModel.find({}, {_id:1, nickname:1})
+    res.status(200).json(data)
+  }
+  catch (err) {
+    console.log(err);
+    res.status(502).json({ err })
+  }
+})
 router.get("/checkToken", auth, async (req, res) => {
   res.json({ _id: req.tokenData._id, role: req.tokenData.role })
 })
