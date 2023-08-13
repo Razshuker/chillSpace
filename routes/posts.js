@@ -20,7 +20,6 @@ router.get("/", async (req, res) => {
         else if(place) {
             myFilter = {place_url: place }
         }
-            // myFilter = {title: searchExp};
         if (user) {
             myFilter = { user_id: user };
         }
