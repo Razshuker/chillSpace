@@ -47,6 +47,17 @@ router.get("/", async (req, res) => {
         res.status(502).json({ err });
     }
 });
+router.get("/placesNames", async (req, res) => {
+    try {
+      //The id field is mandatory in ReactSearchAutocomplete. 
+      let data = await PlaceModel.find({}, {_id:0, id:'$_id', name:1})
+      res.status(200).json(data)
+    }
+    catch (err) {
+      console.log(err);
+      res.status(502).json({ err })
+    }
+  })
 
 router.get("/count", async (req, res) => {
     try {
