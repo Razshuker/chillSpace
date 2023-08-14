@@ -49,15 +49,15 @@ router.get("/", async (req, res) => {
 });
 router.get("/placesNames", async (req, res) => {
     try {
-      //The id field is mandatory in ReactSearchAutocomplete. 
-      let data = await PlaceModel.find({}, {_id:0, id:'$_id', name:1})
-      res.status(200).json(data)
+        //The id field is mandatory in ReactSearchAutocomplete. 
+        let data = await PlaceModel.find({}, { _id: 0, id: '$_id', name: 1 })
+        res.status(200).json(data)
     }
     catch (err) {
-      console.log(err);
-      res.status(502).json({ err })
+        console.log(err);
+        res.status(502).json({ err })
     }
-  })
+})
 
 router.get("/count", async (req, res) => {
     try {
@@ -91,17 +91,33 @@ router.get("/whereToTravel", async (req, res) => {
     const tags_ar = req.query.tags_ar;
     const members = req.query.members;
     const kind = req.query.kind;
-    const query = {
-        $or: [
-            {
-                $and: [
-                    { tags_name: { $in: members } },
-                    { tags_name: { $in: kind } }
-                ]
-            },
-            { tags_name: { $in: tags_ar } }
-        ]
-    };
+    let query = {};
+    if (tags_ar.includes("Air-Conditioner")) {
+        query = {
+            $or: [
+                {
+                    $and: [
+                        { tags_name: { $in: members } },
+                        { tags_name: { $in: kind } },
+                        { tags_name: { $in: "Air-Conditioner" } }
+                    ]
+                },
+                { tags_name: { $in: tags_ar } }
+            ]
+        };
+    } else {
+        query = {
+            $or: [
+                {
+                    $and: [
+                        { tags_name: { $in: members } },
+                        { tags_name: { $in: kind } }
+                    ]
+                },
+                { tags_name: { $in: tags_ar } }
+            ]
+        };
+    }
     try {
         let data = await PlaceModel.find(query).limit(3)
         res.status(201).json(data);
