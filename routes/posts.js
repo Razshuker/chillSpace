@@ -17,8 +17,8 @@ router.get("/", async (req, res) => {
             myFilter = { title: searchExp }
 
         }
-        else if(place) {
-            myFilter = {place_url: place }
+        else if (place) {
+            myFilter = { place_url: place }
         }
         if (user) {
             myFilter = { user_id: user };
@@ -35,6 +35,19 @@ router.get("/", async (req, res) => {
         res.status(502).json({ err })
     }
 })
+
+router.get("/count", async (req, res) => {
+    try {
+        const count = await PostModel.count();
+        res.status(200).json(count);
+
+    }
+    catch (err) {
+        console.log(err);
+        res.status(502).json({ err })
+    }
+})
+
 
 router.get("/reported", authAdmin, async (req, res) => {
     try {
