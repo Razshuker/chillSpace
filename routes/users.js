@@ -97,7 +97,7 @@ router.post("/", async (req, res) => {
   }
   catch (err) {
     if (err.code == 11000) {
-      return res.status(400).json({ msg: "Email already in system", code: 11000 })
+      return res.status(400).json({ msg: "Email/phone is already in our system", code: 11000 })
     }
     console.log(err);
     res.status(502).json({ err })
