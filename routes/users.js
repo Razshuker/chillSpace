@@ -11,8 +11,12 @@ router.get("/", async (req, res) => {
 })
 
 router.get("/usersList", authAdmin, async (req, res) => {
+  let perPage = req.query.perPage || 5;
+  let page = req.query.page - 1 || 0;
   try {
     let data = await UserModel.find({}, { password: 0 })
+      .limit(perPage)
+      .skip(perPage * page)
     res.status(200).json(data)
   }
   catch (err) {
@@ -20,10 +24,23 @@ router.get("/usersList", authAdmin, async (req, res) => {
     res.status(502).json({ err })
   }
 })
+
+router.get("/count", authAdmin, async (req, res) => {
+  try {
+    const count = await UserModel.count();
+    res.status(200).json(count);
+
+  }
+  catch (err) {
+    console.log(err);
+    res.status(502).json({ err })
+  }
+})
+
 router.get("/nickNames", async (req, res) => {
   try {
     //The id field is mandatory in ReactSearchAutocomplete. 
-    let data = await UserModel.find({}, {_id:0, id:'$_id', nickname:1})
+    let data = await UserModel.find({}, { _id: 0, id: '$_id', nickname: 1 })
     res.status(200).json(data)
   }
   catch (err) {
