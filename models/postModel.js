@@ -20,8 +20,8 @@ exports.PostModel = mongoose.model("posts", schema)
 exports.validatePost = (_reqBody) => {
     let joiSchema = Joi.object({
         img_url: Joi.string().min(2).max(400).allow(null, ""),
-        title: Joi.string().min(2).max(100).required(),
-        description: Joi.string().min(2).max(400).required(),
+        title: Joi.string().min(2).max(15).required(),
+        description: Joi.string().min(2).max(1000).required(),
         place_url: Joi.string().min(2).max(400).allow(null, ""),
         user_id: Joi.string().min(2).max(400).required(),
     })
