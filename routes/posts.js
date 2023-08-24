@@ -15,7 +15,6 @@ router.get("/", async (req, res) => {
         if (search) {
             let searchExp = new RegExp(search, "i");
             myFilter = { title: searchExp }
-
         }
         else if (place) {
             myFilter = { place_url: place }
@@ -38,9 +37,22 @@ router.get("/", async (req, res) => {
 
 router.get("/count", async (req, res) => {
     try {
-        const count = await PostModel.count();
+        const search = req.query.s;
+        const user = req.query.user;
+        const place = req.query.place;
+        let myFilter = {};
+        if (search) {
+            let searchExp = new RegExp(search, "i");
+            myFilter = { title: searchExp }
+        }
+        else if (place) {
+            myFilter = { place_url: place }
+        }
+        if (user) {
+            myFilter = { user_id: user };
+        }
+        const count = await PostModel.countDocuments(myFilter);
         res.status(200).json(count);
-
     }
     catch (err) {
         console.log(err);
