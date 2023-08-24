@@ -209,6 +209,18 @@ router.patch("/changeRole/:id/:role", authAdmin, async (req, res) => {
     res.status(502).json({ err })
   }
 })
+router.patch("/changeUrlMatch/:newUrl",auth, async (req, res) => {
+  try {
+    const newUrl = req.params.newUrl;
+    const id = req.tokenData._id;
+    let user = await UserModel.updateOne({ _id: id }, {matchPlacesUrl: newUrl });
+    res.status(201).json(user);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(502).json({ err })
+  }
+})
 
 router.patch("/changePassword", auth, async (req, res) => {
   try {

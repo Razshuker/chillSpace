@@ -11,6 +11,7 @@ let schema = new mongoose.Schema({
   password: String,
   location: String,
   nickname: String,
+  matchPlacesUrl: String,
   date_created: {
     type: Date, default: Date.now
   },
@@ -30,6 +31,7 @@ exports.validateUser = (_reqBody) => {
   let joiSchema = Joi.object({
     full_name: Joi.string().min(2).max(150).required(),
     img_url: Joi.string().min(2).max(400).allow(null, ""),
+    matchPlacesUrl: Joi.string().min(2).max(500).allow(null, ""),
     phone: Joi.string().min(1).max(25).required(),
     email: Joi.string().min(2).max(400).email().required(),
     password: Joi.string().min(2).max(400).required(),
@@ -46,6 +48,7 @@ exports.validateUpdateUser = (_reqBody) => {
     email: Joi.string().min(2).max(400).email().required(),
     location: Joi.string().min(2).max(400).required(),
     nickname: Joi.string().min(2).max(100).required(),
+    matchPlacesUrl: Joi.string().min(2).max(500).allow(null, ""),
   })
   return joiSchema.validate(_reqBody)
 }
