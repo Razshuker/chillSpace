@@ -11,6 +11,7 @@ router.get("/", async (req, res) => {
     const tags = req.query.tags;
     const types = req.query.types;
     const cats = req.query.cats;
+    const exclude = req.query.exclude;
     let myFilter = {};
     try {
         let searchExp = new RegExp(s, "i");
@@ -37,6 +38,9 @@ router.get("/", async (req, res) => {
         if (cats) {
             const catsArray = cats.split(',');
             myFilter.categories_code = { $in: catsArray };
+        }
+        if (exclude) {
+            myFilter._id = { $ne: exclude };
         }
         const data = await PlaceModel.find(myFilter)
             .limit(perPage)
