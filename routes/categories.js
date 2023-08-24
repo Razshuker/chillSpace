@@ -5,13 +5,24 @@ const { auth, authAdmin } = require("../middlewares/auth");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-    const perPage = req.query.perPage || 5;
+    const perPage = req.query.perPage || 6;
     const page = req.query.page - 1 || 0;
     try {
         const data = await CategoryModel.find({})
             .limit(perPage)
             .skip(perPage * page)
         res.status(200).json(data);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(502).json({ err })
+    }
+})
+
+router.get("/count", async (req, res) => {
+    try {
+        const count = await CategoryModel.count();
+        res.status(200).json(count);
     }
     catch (err) {
         console.log(err);
