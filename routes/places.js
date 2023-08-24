@@ -61,7 +61,38 @@ router.get("/placesNames", async (req, res) => {
 
 router.get("/count", async (req, res) => {
     try {
-        const count = await PlaceModel.count();
+        const s = req.query.s;
+        const area = req.query.area;
+        const tags = req.query.tags;
+        const types = req.query.types;
+        const cats = req.query.cats;
+        let myFilter = {};
+        if (s) {
+            let searchExp = new RegExp(s, "i");
+            myFilter = {
+                $or: [
+                    { name: searchExp },
+                    { description: searchExp },
+                ],
+            };
+        }
+        if (area) {
+            const areasArray = area.split(',');
+            myFilter.area = { $in: areasArray };
+        }
+        if (tags) {
+            const tagsArray = tags.split(',');
+            myFilter.tags_name = { $in: tagsArray };
+        }
+        if (types) {
+            const typesArray = types.split(',');
+            myFilter.type = { $in: typesArray };
+        }
+        if (cats) {
+            const catsArray = cats.split(',');
+            myFilter.categories_code = { $in: catsArray };
+        }
+        const count = await PlaceModel.countDocuments(myFilter);
         res.status(200).json(count);
 
     }
