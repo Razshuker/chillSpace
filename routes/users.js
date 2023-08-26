@@ -201,8 +201,10 @@ router.patch("/changeRole/:id/:role", authAdmin, async (req, res) => {
     if (id == req.tokenData._id || id == "6482ee4d0c5009a9b1e6048b") {
       res.status(401).json({ msg: "you can't change strong admin or your role" });
     }
-    let user = await UserModel.updateOne({ _id: id }, { role: newRole });
-    res.status(201).json(user);
+    else{
+      let user = await UserModel.updateOne({ _id: id }, { role: newRole });
+      res.status(201).json(user);
+    }
   }
   catch (err) {
     console.log(err);
