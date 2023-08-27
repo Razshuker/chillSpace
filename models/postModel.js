@@ -6,7 +6,10 @@ let schema = new mongoose.Schema({
     title: String,
     description: String,
     place_url: String,
-    likes: Array,
+    likes: [{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"users",
+    }],
     user_id: String,
     report: {
         type: Boolean, default: false
