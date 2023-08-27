@@ -27,6 +27,8 @@ router.get("/", async (req, res) => {
             .limit(perPage)
             .skip(perPage * page)
             .sort({ date_created: reverse })
+            .populate("likes","nickname img_url")
+            .exec();
         res.status(200).json(data);
     }
     catch (err) {
@@ -34,6 +36,38 @@ router.get("/", async (req, res) => {
         res.status(502).json({ err })
     }
 })
+
+// router.get("/", async (req, res) => {
+//     const perPage = req.query.perPage || 5;
+//     const page = req.query.page - 1 || 0;
+//     const search = req.query.s;
+//     const user = req.query.user;
+//     const place = req.query.place;
+//     const reverse = req.query.reverse == "yes" ? 1 : -1;
+//     let myFilter = {};
+//     try {
+//         if (search) {
+//             let searchExp = new RegExp(search, "i");
+//             myFilter = { title: searchExp }
+//         }
+//         else if (place) {
+//             myFilter = { place_url: place }
+//         }
+//         if (user) {
+//             myFilter = { user_id: user };
+//         }
+//         const data = await PostModel
+//             .find(myFilter)
+//             .limit(perPage)
+//             .skip(perPage * page)
+//             .sort({ date_created: reverse })
+//         res.status(200).json(data);
+//     }
+//     catch (err) {
+//         console.log(err);
+//         res.status(502).json({ err })
+//     }
+// })
 
 router.get("/count", async (req, res) => {
     try {
