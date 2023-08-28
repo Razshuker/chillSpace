@@ -2,6 +2,7 @@ const express = require("express");
 const { PostModel, validatePost } = require("../models/postModel");
 const { auth, authAdmin } = require("../middlewares/auth");
 const router = express.Router();
+const mongoose = require('mongoose')
 
 router.get("/", async (req, res) => {
     const perPage = req.query.perPage || 5;
@@ -156,10 +157,12 @@ router.patch("/changeLike/:idPost", auth, async (req, res) => {
         const idUser = req.tokenData._id;
         const post = await PostModel.findOne({ _id: idPost })
         if (post.likes.includes(idUser)) {
+            // const data = await PostModel.updateOne({ _id: idPost }, { $pull: { likes:  mongoose.Types.ObjectId(idUser) } })
             const data = await PostModel.updateOne({ _id: idPost }, { $pull: { likes: idUser } })
             res.status(200).json({ data, isAdded: false });
         }
         else {
+            // const data = await PostModel.updateOne({ _id: idPost }, { $push: { likes: mongoose.Types.ObjectId(idUser) } })
             const data = await PostModel.updateOne({ _id: idPost }, { $push: { likes: idUser } })
             res.status(200).json({ data, isAdded: true });
         }
